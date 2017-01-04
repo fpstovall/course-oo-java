@@ -100,7 +100,6 @@ public class EarthquakeCityMap extends PApplet {
 	    
 	    //TODO: load markers to the map.
 	    for (Marker m: markers) {
-	    	m.setColor(yellow);
 	    	map.addMarker(m); 
     	};
 
@@ -109,12 +108,18 @@ public class EarthquakeCityMap extends PApplet {
 		
 	// A suggested helper method that takes in an earthquake feature and 
 	// returns a SimplePointMarker for that earthquake
-	// TODO: Implement this method and call it from setUp, if it helps
 	private SimplePointMarker createMarker(PointFeature feature)
 	{
-		// finish implementing and use this method, if it helps.
 		SimplePointMarker s = new SimplePointMarker(feature.getLocation(),feature.getProperties());
-		s.setRadius(10);
+		// Get the magnitude.
+		Object magObj = s.getProperty("magnitude");
+		int mag = (int) Float.parseFloat(magObj.toString());
+		// set the radius
+		s.setRadius(5+(mag)^2 );
+		// set the color
+		int val = (mag < 9) ? mag^2 : 255;
+		int col = color(val,255-val,0);
+		s.setColor(col);
 		return s;
 	}
 	
