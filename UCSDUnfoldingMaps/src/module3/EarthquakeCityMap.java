@@ -24,8 +24,8 @@ import parsing.ParseFeed;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
- * Date: July 17, 2015
+ * @author Rick Stovall
+ * Date: Jan. 3, 2017
  * */
 public class EarthquakeCityMap extends PApplet {
 
@@ -33,7 +33,7 @@ public class EarthquakeCityMap extends PApplet {
 	private static final long serialVersionUID = 1L;
 
 	// IF YOU ARE WORKING OFFLINE, change the value of this variable to true
-	private static final boolean offline = false;
+	private static final boolean offline = true;
 	
 	// Less than this threshold is a light earthquake
 	public static final float THRESHOLD_MODERATE = 5;
@@ -51,10 +51,10 @@ public class EarthquakeCityMap extends PApplet {
 
 	
 	public void setup() {
-		size(950, 600, OPENGL);
+		size(1350, 1000, OPENGL);
 
 		if (offline) {
-		    map = new UnfoldingMap(this, 200, 50, 700, 500, new MBTilesMapProvider(mbTilesString));
+		    map = new UnfoldingMap(this, 200, 50, 1100, 900, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
 		}
 		else {
@@ -73,7 +73,7 @@ public class EarthquakeCityMap extends PApplet {
 	    //PointFeatures have a getLocation method
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 	    
-	    // These print statements show you (1) all of the relevant properties 
+	    /* These print statements show you (1) all of the relevant properties 
 	    // in the features, and (2) how to get one property and use it
 	    if (earthquakes.size() > 0) {
 	    	PointFeature f = earthquakes.get(0);
@@ -82,12 +82,29 @@ public class EarthquakeCityMap extends PApplet {
 	    	float mag = Float.parseFloat(magObj.toString());
 	    	// PointFeatures also have a getLocation method
 	    }
-	    
+	    */
+	   
 	    // Here is an example of how to use Processing's color method to generate 
 	    // an int that represents the color yellow.  
 	    int yellow = color(255, 255, 0);
 	    
 	    //TODO: Add code here as appropriate
+	    // load the markers list.
+	    for (PointFeature p: earthquakes) {
+	    	//TODO: populate markers here
+	    	markers.add(createMarker(p));
+	    }
+	    System.out.print("Loaded "); 
+	    System.out.print(markers.size());
+	    System.out.println(" markers."); 
+	    
+	    //TODO: load markers to the map.
+	    for (Marker m: markers) {
+	    	m.setColor(yellow);
+	    	map.addMarker(m); 
+    	};
+
+	
 	}
 		
 	// A suggested helper method that takes in an earthquake feature and 
@@ -96,7 +113,7 @@ public class EarthquakeCityMap extends PApplet {
 	private SimplePointMarker createMarker(PointFeature feature)
 	{
 		// finish implementing and use this method, if it helps.
-		return new SimplePointMarker(feature.getLocation());
+		return new SimplePointMarker(feature.getLocation(),feature.getProperties());
 	}
 	
 	public void draw() {
