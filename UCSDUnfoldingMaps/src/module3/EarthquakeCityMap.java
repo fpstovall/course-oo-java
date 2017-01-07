@@ -58,7 +58,7 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 1100, 900, new Google.GoogleMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 			//earthquakesURL = "2.5_week.atom";
 		}
@@ -115,26 +115,44 @@ public class EarthquakeCityMap extends PApplet {
 		Object magObj = s.getProperty("magnitude");
 		int mag = (int) Float.parseFloat(magObj.toString());
 		// set the radius
-		s.setRadius(5+(mag)^2 );
+		s.setRadius(8+(mag*2) );
 		// set the color
-		int val = (mag < 7) ? mag*42 : 255;
+		int val = (mag < 9) ? mag*31 : 255;
 		int col = color(val,255-val,0);
 		s.setColor(col);
 		return s;
 	}
 	
 	public void draw() {
-	    background(10);
+		background(color(10,10,100));
 	    map.draw();
 	    addKey();
 	}
 
 
 	// helper method to draw key in GUI
-	// TODO: Implement this method to draw the key
 	private void addKey() 
 	{	
-		// Remember you can use Processing's graphics methods here
-	
+		// legand canvas
+		fill(color(240,240,240));
+		rect(25,40,150,420,20);
+		// fill out the legand
+		for (int i=0; i< 11; i++) {
+			// get vertical offset
+			int vofst = 100+i*30;
+			// Text legand
+			String s = "Mag "+ String.valueOf(i);
+			fill(10);
+			text(s, 60, vofst);
+			// -- draw the illustration
+			// set the radius
+			int radius = 8+(i*2);
+			// set the color
+			int val = (i < 9) ? i*31 : 255;
+			int col = color(val,255-val,0);
+			fill(col);
+			ellipseMode(CENTER);
+			ellipse(130,vofst,radius,radius);
+		}
 	}
 }
