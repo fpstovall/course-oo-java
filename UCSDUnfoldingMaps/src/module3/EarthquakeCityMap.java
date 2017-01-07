@@ -117,7 +117,7 @@ public class EarthquakeCityMap extends PApplet {
 		// set the radius
 		s.setRadius(5+(mag)^2 );
 		// set the color
-		int val = (mag < 9) ? mag^2 : 255;
+		int val = (mag < 7) ? mag*42 : 255;
 		int col = color(val,255-val,0);
 		s.setColor(col);
 		return s;
