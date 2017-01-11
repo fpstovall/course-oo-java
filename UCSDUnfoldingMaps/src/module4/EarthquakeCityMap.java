@@ -35,7 +35,7 @@ public class EarthquakeCityMap extends PApplet {
 	private static final long serialVersionUID = 1L;
 
 	// IF YOU ARE WORKING OFFILINE, change the value of this variable to true
-	private static final boolean offline = false;
+	private static final boolean offline = true;
 	
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
@@ -154,20 +154,19 @@ public class EarthquakeCityMap extends PApplet {
 		text("Below 4.0", 75, 225);
 	}
 
-	
-	
 	// Checks whether this quake occurred on land.  If it did, it sets the 
 	// "country" property of its PointFeature to the country where it occurred
 	// and returns true.  Notice that the helper method isInCountry will
 	// set this "country" property already.  Otherwise it returns false.
 	private boolean isLand(PointFeature earthquake) {
-		
-		// IMPLEMENT THIS: loop over all countries to check if location is in any of them
-		
-		// TODO: Implement this method using the helper method isInCountry
-		
-		// not inside any country
-		return false;
+		boolean returnme = false;
+		for (Marker c : countryMarkers) {
+			if (isInCountry(earthquake, c)) {
+				returnme = true;
+				break;
+			};
+		};
+		return returnme;
 	}
 	
 	// prints countries with number of earthquakes
