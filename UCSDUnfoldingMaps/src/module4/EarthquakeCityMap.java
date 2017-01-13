@@ -2,6 +2,11 @@ package module4;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Map;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
@@ -177,9 +182,37 @@ public class EarthquakeCityMap extends PApplet {
 	// And LandQuakeMarkers have a "country" property set.
 	private void printQuakes() 
 	{
-		// TODO: Implement this method
+		// Gather the data
+		Map<String, Integer> totals = new TreeMap<String, Integer>();
+		for (Marker e: quakeMarkers) {
+			String country = e.getStringProperty("country");
+			if (country != null) {
+				if (totals.containsKey(country)) {
+					totals.put(country, totals.get(country)+1);
+				}
+				else {
+					totals.put(country, 1);
+				};
+			};
+		};
+		// report it
+		System.out.print("Found ");
+		System.out.print(totals.size());
+		System.out.println(" active countries.");
+		Iterator c = totals.entrySet().iterator();
+		int sum = 0;
+		while (c.hasNext()) {
+			Map.Entry country = (Map.Entry) c.next();
+			System.out.print(country.getKey());
+			System.out.print(" : ");
+			System.out.println(country.getValue());
+			sum += (Integer)country.getValue();
+		};
+		System.out.print("Ocean : ");
+		System.out.println(quakeMarkers.size()-sum);
+		System.out.print("Total : ");
+		System.out.println(quakeMarkers.size());
 	}
-	
 	
 	
 	// helper method to test whether a given earthquake is in a given country
