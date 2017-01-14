@@ -139,7 +139,7 @@ public class EarthquakeCityMap extends PApplet {
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
 		fill(255, 250, 240);
-		rect(25, 50, 150, 250);
+		rect(25, 50, 150, 450);
 		
 		fill(0);
 		textAlign(LEFT, CENTER);
@@ -157,6 +157,10 @@ public class EarthquakeCityMap extends PApplet {
 		text("5.0+ Magnitude", 75, 125);
 		text("4.0+ Magnitude", 75, 175);
 		text("Below 4.0", 75, 225);
+		
+		text("City",75,275);
+		fill(10);
+		triangle(50,270,45,280,55,280);
 	}
 
 	// Checks whether this quake occurred on land.  If it did, it sets the 
