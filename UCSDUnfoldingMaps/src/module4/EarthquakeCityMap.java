@@ -45,8 +45,6 @@ public class EarthquakeCityMap extends PApplet {
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
 	
-	
-
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 	
@@ -115,15 +113,15 @@ public class EarthquakeCityMap extends PApplet {
 		  }
 	    }
 
-	    // could be used for debugging
-	    printQuakes();
-	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
 	    
+	    // could be used for debugging
+	    printQuakes();
+
 	}  // End setup
 	
 	
@@ -146,21 +144,34 @@ public class EarthquakeCityMap extends PApplet {
 		textSize(12);
 		text("Earthquake Key", 50, 75);
 		
-		fill(color(255, 0, 0));
+		fill(color(0, 0, 255));
 		ellipse(50, 125, 15, 15);
 		fill(color(255, 255, 0));
-		ellipse(50, 175, 10, 10);
-		fill(color(0, 0, 255));
-		ellipse(50, 225, 5, 5);
+		ellipse(50, 175, 15, 15);
+		fill(color(255, 0, 0));
+		ellipse(50, 225, 15, 15);
 		
 		fill(0, 0, 0);
-		text("5.0+ Magnitude", 75, 125);
-		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("Shallow Depth", 75, 125);
+		text("Intermediate ", 75, 175);
+		text("Deep", 75, 225);
 		
 		text("City",75,275);
 		fill(10);
 		triangle(50,270,45,280,55,280);
+		
+		fill(0,0,0);
+		text("Land Quake",75, 325);
+		fill(255,255,255);
+		ellipse(50,325,15,15);
+		fill(0,0,0);
+		text("Ocean Quake",75, 375);
+		fill(255,255,255);
+		rect(43,368,15,15);
+
+		fill(0,0,0);
+		text("Size = Magnitude",45, 425);
+	
 	}
 
 	// Checks whether this quake occurred on land.  If it did, it sets the 
