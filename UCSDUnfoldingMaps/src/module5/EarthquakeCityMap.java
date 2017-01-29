@@ -135,8 +135,7 @@ public class EarthquakeCityMap extends PApplet {
 			lastSelected = null;
 		
 		}
-		selectMarkerIfHover(quakeMarkers);
-		selectMarkerIfHover(cityMarkers);
+		selectMarkerIfHover(map.getMarkers());
 	}
 	
 	// If there is a marker under the cursor, and lastSelected is null 
@@ -165,21 +164,59 @@ public class EarthquakeCityMap extends PApplet {
 	@Override
 	public void mouseClicked()
 	{
-		// TODO: Implement this method
-		// Hint: You probably want a helper method or two to keep this code
-		// from getting too long/disorganized
+		// Step 7
+		// -- Find the clicked item, if any
+		CommonMarker onEntry = lastClicked;
+		lastClicked = null;
+		for (Marker m : map.getMarkers()) {
+			if (m.isInside(map, mouseX, mouseY)) {
+				lastClicked = (CommonMarker)m;
+			};
+			if (lastClicked != null) { break; };
+		};
+		// -- no action if we've clicked the same object twice.
+		if (onEntry == lastClicked) { return; };
+		// -- if none and lastClicked != null, unhide all.
+		if (lastClicked == null) {
+			setMarkersHidden(false);
+		}
+		// -- if lastClicked, is city or quake?
+		else if (lastClicked instanceof CityMarker) {
+			showCloseQuakes((CityMarker)lastClicked);
+		} else if (lastClicked instanceof EarthquakeMarker) {
+			showCloseCities((EarthquakeMarker)lastClicked);
+		};
 	}
 	
+	private void showCloseCities(EarthquakeMarker e) {
+		setMarkersHidden(true);
+		e.setHidden(false);
+		double safe = e.threatCircle();
+		for (Marker m : cityMarkers) {
+			double range = m.getDistanceTo(e.getLocation());
+			if (range <= safe) {
+				m.setHidden(false);
+			};
+		};
+	};
+	
+	private void showCloseQuakes(CityMarker c) {
+		setMarkersHidden(true);
+		c.setHidden(false);
+		for (Marker e: quakeMarkers) {
+			double safe = ((EarthquakeMarker)e).threatCircle();
+			double range = e.getDistanceTo(c.getLocation());
+			if (range <= safe) {
+				e.setHidden(false);
+			};
+		};
+	};
 	
 	// loop over and unhide all markers
-	private void unhideMarkers() {
-		for(Marker marker : quakeMarkers) {
-			marker.setHidden(false);
-		}
-			
-		for(Marker marker : cityMarkers) {
-			marker.setHidden(false);
-		}
+	private void setMarkersHidden(boolean tf) {
+		for(Marker marker : map.getMarkers()) {
+			marker.setHidden(tf);
+		};
 	}
 	
 	// helper method to draw key in GUI
