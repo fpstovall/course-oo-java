@@ -50,11 +50,16 @@ public class CityMarker extends CommonMarker {
 	/** Show the title of the city if this marker is selected */
 	public void showTitle(PGraphics pg, float x, float y)
 	{
-		
-		// TODO: Implement this method
+		// Step 6
+		pg.pushStyle();
+		pg.textSize(12);
+		pg.fill(10);
+		String label = getStringProperty("name");
+		label += ", " + getStringProperty("country");
+		label += " " + getStringProperty("population")+"m"; 
+		pg.text(label,x,y);
+		pg.popStyle();
 	}
-	
-	
 	
 	/* Local getters for some city properties.  
 	 */
