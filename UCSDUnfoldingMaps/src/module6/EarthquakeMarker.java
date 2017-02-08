@@ -55,7 +55,7 @@ public abstract class EarthquakeMarker extends CommonMarker implements Comparabl
 		this.radius = 1.75f*getMagnitude();
 	}
 	
-	// TODO: Add the method:
+	// Added the method:
 	// public int compareTo(EarthquakeMarker marker)
 	public int compareTo(EarthquakeMarker m) {
 		float me = getMagnitude();
