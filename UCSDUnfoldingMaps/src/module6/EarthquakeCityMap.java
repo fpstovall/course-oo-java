@@ -174,8 +174,17 @@ public class EarthquakeCityMap extends PApplet {
 		// earthquake magnitude to be displayed.
 		float minMag = keyCode - 48;
 		minMag = ((minMag > 9.0f) || (minMag < 0.0f)) ? 0.0f : minMag;
-		System.out.println(keyCode+" : "+minMag);
+		System.out.println("Showing all quakes >= "+minMag);
 		// TODO : hide/unhide the earthquakes here.
+		unhideMarkers();
+		if (minMag > 0.0) {
+			for (Marker m : quakeMarkers) {
+				EarthquakeMarker e = (EarthquakeMarker) m;
+				if (e.getMagnitude() < minMag) {
+					e.setHidden(true);
+				}
+			}
+		}
 	}
 	
 	// If there is a marker selected 
