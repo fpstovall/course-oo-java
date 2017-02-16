@@ -172,6 +172,10 @@ public class EarthquakeCityMap extends PApplet {
 	public void keyPressed() {
 		// TODO: implement keypress handler to set the min 
 		// earthquake magnitude to be displayed.
+		float minMag = keyCode - 48;
+		minMag = ((minMag > 9.0f) || (minMag < 0.0f)) ? 0.0f : minMag;
+		System.out.println(keyCode+" : "+minMag);
+		// TODO : hide/unhide the earthquakes here.
 	}
 	
 	// If there is a marker selected 
