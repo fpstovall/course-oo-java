@@ -168,6 +168,12 @@ public class EarthquakeCityMap extends PApplet {
 		//loop();
 	}
 	
+	@Override
+	public void keyPressed() {
+		// TODO: implement keypress handler to set the min 
+		// earthquake magnitude to be displayed.
+	}
+	
 	// If there is a marker selected 
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
