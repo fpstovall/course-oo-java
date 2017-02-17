@@ -63,6 +63,11 @@ public class EarthquakeCityMap extends PApplet {
 	private CommonMarker lastSelected;
 	private CommonMarker lastClicked;
 	
+	// for keypress hander
+	private boolean shifted = false;
+	private float minMag = 0.0f;
+	
+	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
@@ -168,19 +173,40 @@ public class EarthquakeCityMap extends PApplet {
 		//loop();
 	}
 	
+	// keypress handler to show selected earthquakes
+	// by magnitude.
 	@Override
 	public void keyPressed() {
-		// TODO: implement keypress handler to set the min 
-		// earthquake magnitude to be displayed.
-		float minMag = keyCode - 48;
-		minMag = ((minMag > 9.0f) || (minMag < 0.0f)) ? 0.0f : minMag;
-		System.out.println("Showing all quakes >= "+minMag);
-		// TODO : hide/unhide the earthquakes here.
+		// what was pressed?
+		if (keyCode == 16) { 
+			// toggle shifted each time the shift key is pressed.
+			shifted = !shifted; 
+		}
+		else { 
+			// see if we have a valid number key.
+			// this works because "0" is ascii 48 and the numbers follow in sequence.
+			minMag = keyCode - 48; 
+			// clamp the results to 0-9; zero if anything non-numeric was pressed.
+			minMag = ((minMag > 9.0f) || (minMag < 0.0f)) ? 0.0f : minMag;
+		}
+		if (minMag == 0.0) { System.out.println("Showing all earthquakes.");}
+		// show all markers (reset the display)
 		unhideMarkers();
+		// take action if a non-zero min magnitude has been selected.
 		if (minMag > 0.0) {
+			// print what we are doing to the console.
+			if (!shifted) { System.out.println("Showing all quakes >= "+minMag); }
+			else { System.out.println("Showing quakes from "+minMag+" to "+(minMag + 0.999)); }
+			// scan the markers and take action.
 			for (Marker m : quakeMarkers) {
 				EarthquakeMarker e = (EarthquakeMarker) m;
-				if (e.getMagnitude() < minMag) {
+				float mg = e.getMagnitude();
+				if (shifted) {
+					if ((mg < minMag) || (mg > (minMag+0.999))) {
+						e.setHidden(true);
+					}
+				}
+				else if (mg < minMag) {
 					e.setHidden(true);
 				}
 			}
