@@ -36,7 +36,7 @@ public class EarthquakeCityMap extends PApplet {
 	private static final long serialVersionUID = 1L;
 
 	// IF YOU ARE WORKING OFFILINE, change the value of this variable to true
-	private static final boolean offline = true;
+	private static final boolean offline = false;
 	
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
@@ -173,8 +173,7 @@ public class EarthquakeCityMap extends PApplet {
 		//loop();
 	}
 	
-	// keypress handler to show selected earthquakes
-	// by magnitude.
+	// keypress handler to show selected earthquakes by magnitude
 	@Override
 	public void keyPressed() {
 		// what was pressed?
@@ -182,13 +181,16 @@ public class EarthquakeCityMap extends PApplet {
 			// toggle shifted each time the shift key is pressed.
 			shifted = !shifted; 
 		}
+		// alt-eater so we can get good screen shots.
+		else if (keyCode == 18) { return; }
 		else { 
 			// see if we have a valid number key.
 			// this works because "0" is ascii 48 and the numbers follow in sequence.
 			minMag = keyCode - 48; 
 			// clamp the results to 0-9; zero if anything non-numeric was pressed.
 			minMag = ((minMag > 9.0f) || (minMag < 0.0f)) ? 0.0f : minMag;
-		}
+		}	
+		// Do the display updates 
 		if (minMag == 0.0) { System.out.println("Showing all earthquakes.");}
 		// show all markers (reset the display)
 		unhideMarkers();
